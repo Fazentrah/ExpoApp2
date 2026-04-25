@@ -1,6 +1,19 @@
-import { Text } from 'react-native';
+import { View } from 'react-native';
+import Tarea from './Tarea';
 
-
-export default function Tarea({ texto }) {
-    return <Text>{texto}</Text>;
+export default function ListaTareas({ tareas, onEliminar, onToggle }) {
+  return (
+    <View>
+      {tareas.map(t => (
+        <Tarea 
+          key={t.id}
+          id={t.id}
+          texto={t.texto}
+          completada={t.completada}
+          onEliminar={onEliminar}
+          onToggle={onToggle}
+        />
+      ))}
+    </View>
+  );
 }

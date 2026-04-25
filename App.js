@@ -1,41 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import Saludo from './componente/saludo';
-import Perfil from './componente/perfil';
-
+import { StyleSheet, Text, View } from 'react-native';
 import InputTarea from './componente/Input';
 import ListaTareas from './componente/Lista';
 import { useState } from 'react';
 
-
-
 export default function App() {
 
+  const [tareas, setTareas] = useState([]);
 
+  const agregarTarea = (texto) => {
+    setTareas([...tareas, { id: Date.now(), texto, completada: false }]);
+  };
 
-const [tareas, setTareas] = useState([]);
-const agregarTarea = (texto) => {
-setTareas([...tareas, { id: Date.now(), texto }]);
-};
+  const manejarEliminacion = (id) => {
+    const nuevaLista = tareas.filter(t => t.id !== id);
+    setTareas(nuevaLista);
+  };
 
-
-
+  const toggleCompletada = (id) => {
+    const nuevasTareas = tareas.map(t =>
+      t.id === id ? { ...t, completada: !t.completada } : t
+    );
+    setTareas(nuevasTareas);
+  };
 
   return (
     <View style={styles.container}>
       <Text>app1</Text>
-      <StatusBar style="auto" />
-      <Perfil alumno= "carlos" edad= "45"/>
-      <Saludo nombre= "juan"/>
+
       <InputTarea onAgregar={agregarTarea} />
-      <ListaTareas tareas={tareas} />
+
+      <View style={styles.listaContainer}>
+        <ListaTareas 
+          tareas={tareas} 
+          onEliminar={manejarEliminacion}
+          onToggle={toggleCompletada}
+        />
+      </View>
     </View>
   );
 }
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -43,4 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  listaContainer: {
+    marginTop: 20,
+  }
 });
