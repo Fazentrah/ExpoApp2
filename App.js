@@ -1,52 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
-import InputTarea from './componente/Input';
-import ListaTareas from './componente/Lista';
-import { useState } from 'react';
+import FlexEjercicio from './componente/FlexEjercicio';
+import TodoApp from './componente/AppPrincipal';
+import Estilos from './componente/Estilos';
 
 export default function App() {
 
-  const [tareas, setTareas] = useState([]);
-
-  const agregarTarea = (texto) => {
-    setTareas([...tareas, { id: Date.now(), texto, completada: false }]);
-  };
-
-  const manejarEliminacion = (id) => {
-    const nuevaLista = tareas.filter(t => t.id !== id);
-    setTareas(nuevaLista);
-  };
-
-  const toggleCompletada = (id) => {
-    const nuevasTareas = tareas.map(t =>
-      t.id === id ? { ...t, completada: !t.completada } : t
-    );
-    setTareas(nuevasTareas);
-  };
+  const modo = "app principal"; 
 
   return (
-    <View style={styles.container}>
-      <Text>app1</Text>
-
-      <InputTarea onAgregar={agregarTarea} />
-
-      <View style={styles.listaContainer}>
-        <ListaTareas 
-          tareas={tareas} 
-          onEliminar={manejarEliminacion}
-          onToggle={toggleCompletada}
-        />
-      </View>
-    </View>
+    <>
+      {modo === "flex" && <FlexEjercicio />}
+      {modo === "app principal" && <TodoApp />}
+      {modo === "style" && <Estilos/>}
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  listaContainer: {
-    marginTop: 20,
-  }
-});

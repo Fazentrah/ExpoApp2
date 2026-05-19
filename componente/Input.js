@@ -18,6 +18,7 @@ export default function InputTarea({ onAgregar }) {
           if (texto.trim() !== '') {
             onAgregar(texto);
             setTexto('');
+            
           }
         }}
       />
